@@ -47,9 +47,13 @@ export class AppComponent implements OnInit  {
                       "<div fxFlex='50%'>" +
                       " <div fxLayout='row' fxLayoutAlign='center center'> " +
                       "<label class='cardTitle'>Component B " +
-                      " </label> " +
+                      " </label>" +
                       " </div> "+
+                      " <div fxLayout='row' fxLayoutAlign='center center'> " +
                       this.componentTemplateCode + 
+                     
+                      " </div> "+
+                     
                       "</div>" +
                       "</div>";
 
