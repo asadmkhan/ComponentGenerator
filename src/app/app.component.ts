@@ -45,7 +45,7 @@ export class AppComponent implements OnInit  {
     
     const template = "<div  fxLayout='row'  fxLayout.xs='column' fxLayoutGap='1%' fxLayoutAlign='center center'>" +
                       "<div fxFlex='50%'>" +
-                      " <div fxLayout='row' fxLayoutAlign='center center'> " +
+                      " <div fxLayout='row' fxLayoutAlign='center center'>  {{testtext}}" +
                       "<label class='cardTitle'>Component B " +
                       " </label>" +
                       " </div> "+
@@ -59,6 +59,7 @@ export class AppComponent implements OnInit  {
 
                       
       const tmpCmp = Component({template: template})(class {
+          testtext: string;
       });
       const tmpModule = NgModule({declarations: [tmpCmp],imports: [FlexLayoutModule]} )(class {
       });
@@ -69,7 +70,7 @@ export class AppComponent implements OnInit  {
           .then((factories) => {
               const f = factories.componentFactories[0];
               const cmpRef = f.create(this._injector, [], null, this._m);
-              cmpRef.instance.Testtext = this.componentText;
+              cmpRef.instance.testtext = this.componentText;
               this._container.insert(cmpRef.hostView);
           })
   }
