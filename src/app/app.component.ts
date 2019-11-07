@@ -37,15 +37,12 @@ export class AppComponent implements OnInit  {
 
   onFormSubmit(form: NgForm) {
   
-    debugger;
-    
     this.CreateComponent();
   }
 
   CreateComponent() {
 
     
-debugger;
     const template = "<div  fxLayout='row'  fxLayout.xs='column' fxLayoutGap='1%' fxLayoutAlign='center center'>" +
                       "<div fxFlex='50%'>" +
                       " <div fxLayout='row' fxLayoutAlign='center center'> " +
@@ -53,7 +50,6 @@ debugger;
                       " </label> " +
                       " </div> "+
                       this.componentTemplateCode + 
-                      //`${componentTemplateCode}` + 
                       "</div>" +
                       "</div>";
 
