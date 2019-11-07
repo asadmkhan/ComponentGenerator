@@ -10,3 +10,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 24px;
     font-weight: 500;
 }
+.divComponentB{
+    border:1px solid;
+}

@@ -7,20 +7,18 @@ import {
   ViewChild,
   ViewContainerRef,
   OnInit,
-  Type,
   ComponentFactoryResolver
 } from "@angular/core";
 import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { AppMaterialModule } from "./material-module";
-import { validator } from "html-validator";
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
-  componentRef = null;
+  componentB = null;
   componentGeneratorForm: FormGroup;
   componentText: string = "";
   componentTemplateCode: string = "";
@@ -29,7 +27,6 @@ export class AppComponent implements OnInit {
   _container: ViewContainerRef;
   constructor(
     private _compiler: Compiler,
-    private _injector: Injector,
     private _m: NgModuleRef<any>,
     private formBuilder: FormBuilder,
     private resolver: ComponentFactoryResolver
@@ -58,15 +55,43 @@ export class AppComponent implements OnInit {
   }
 
   updateComponentValue() {
-    if (this.componentRef) {
-      this.componentRef.instance.Updater(this.componentText);
+    if (this.componentB) {
+      this.componentB.instance.Updater(this.componentText);
     }
   }
 
   CreateComponent() {
-    const template =
-      "<div  fxLayout='row'  fxLayout.xs='column' fxLayoutGap='1%' fxLayoutAlign='center center'>" +
-      "<div fxFlex='50%'>" +
+    const template = this.generateMarkupForComponent();
+
+    const componentB = Component({ template: template })(
+      class {
+        Testtext: string = "";
+      }
+    );
+    const bModule = NgModule({
+      declarations: [componentB],
+      imports: [FlexLayoutModule]
+    })(class {});
+
+    this._container.clear();
+
+    this._compiler
+      .compileModuleAndAllComponentsAsync(bModule)
+      .then(factories => {
+        const factory = factories.componentFactories[0];
+        this.componentB = this._container.createComponent(factory);
+        this.componentB.instance.Testtext = this.componentText;
+        this.componentB.instance.Updater = function(updatedValue) {
+          this.Testtext = updatedValue;
+        };
+        this._container.insert(this.componentB.hostView);
+      });
+  }
+
+  generateMarkupForComponent(){
+
+  let markup = "<div   fxLayout='row'  fxLayout.xs='column' fxLayoutGap='1%' fxLayoutAlign='center center'>" +
+      "<div class='divComponentB' fxFlex='50%'>" +
       " <div fxLayout='row' fxLayoutAlign='center center'> " +
       "<label class='cardTitle'>Component B " +
       " </label>" +
@@ -77,29 +102,7 @@ export class AppComponent implements OnInit {
       "</div>" +
       "</div>";
 
-    const tmpCmp = Component({ template: template })(
-      class {
-        Testtext: string = "My New Value";
-      }
-    );
-    const tmpModule = NgModule({
-      declarations: [tmpCmp],
-      imports: [FlexLayoutModule]
-    })(class {});
-
-    this._container.clear();
-
-    this._compiler
-      .compileModuleAndAllComponentsAsync(tmpModule)
-      .then(factories => {
-        const f = factories.componentFactories[0];
-        this.componentRef = this._container.createComponent(f);
-        this.componentRef.instance.Testtext = this.componentText;
-        this.componentRef.instance.Updater = function(updatedValue) {
-          this.Testtext = updatedValue;
-        };
-        this._container.insert(this.componentRef.hostView);
-      });
+      return markup;
   }
 
   isValidMarkup(tag) {
