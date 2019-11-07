@@ -8,7 +8,7 @@
       <p>
         <mat-form-field class="form-field" appearance="fill" >
           <mat-label>Enter Text</mat-label>
-          <input  matInput placeholder="Enter Text" formControlName="componentText" [errorStateMatcher]="" >
+          <input  matInput placeholder="Enter Text" [(ngModel)]="componentText" formControlName="componentText" [errorStateMatcher]="" >
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
           <mat-hint>This text will be bind in Component B</mat-hint>
         </mat-form-field>
@@ -16,7 +16,7 @@
       <p>
         <mat-form-field class="form-field" appearance="fill" >
           <mat-label>Enter Template Code</mat-label>
-          <textarea matInput placeholder="Enter Template Code" formControlName="componentTemplateCode"
+          <textarea matInput placeholder="Enter Template Code" [(ngModel)]="componentTemplateCode" formControlName="componentTemplateCode"
             [errorStateMatcher]="" cols="10"></textarea>
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             <mat-hint>Template code to generate Component B, use Testtext binding property</mat-hint>
