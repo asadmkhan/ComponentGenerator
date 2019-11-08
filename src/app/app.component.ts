@@ -7,7 +7,8 @@ import {
   ViewChild,
   ViewContainerRef,
   OnInit,
-  ComponentFactoryResolver
+  ComponentFactoryResolver,
+  
 } from "@angular/core";
 import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -56,15 +57,16 @@ export class AppComponent implements OnInit {
 
   updateComponentValue() {
     if (this.componentB) {
-      this.componentB.instance.Updater(this.componentText);
+      this.componentB.instance.Testtext =  this.componentText;
     }
   }
 
   CreateComponent() {
     const template = this.generateMarkupForComponent();
 
-    const componentB = Component({ template: template })(
+    const componentB = Component({ template: template})(
       class {
+
         Testtext: string = "";
       }
     );
@@ -81,9 +83,6 @@ export class AppComponent implements OnInit {
         const factory = factories.componentFactories[0];
         this.componentB = this._container.createComponent(factory);
         this.componentB.instance.Testtext = this.componentText;
-        this.componentB.instance.Updater = function(updatedValue) {
-          this.Testtext = updatedValue;
-        };
         this._container.insert(this.componentB.hostView);
       });
   }
@@ -91,8 +90,8 @@ export class AppComponent implements OnInit {
   generateMarkupForComponent(){
 
   let markup = "<div   fxLayout='row'  fxLayout.xs='column' fxLayoutGap='1%' fxLayoutAlign='center center'>" +
-      "<div class='divComponentB' fxFlex='50%'>" +
-      " <div fxLayout='row' fxLayoutAlign='center center'> " +
+      "<div class='divComponentB'  fxFlex='50%'>" +
+      " <div fxLayout='row' fxLayoutAlign='center center'> {{a}}" +
       "<label class='cardTitle'>Component B " +
       " </label>" +
       " </div> " +
